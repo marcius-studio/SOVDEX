@@ -129,8 +129,7 @@
                 const account = this.accountSchema[this.$route.params.symbol][side]
                 const amount = (side == 'buy') ? this.buyAmount : this.sellAmount
 
-
-                if (confirm(`You really want to ${side} ${amount} ${this.pair.base.toUpperCase()}?`)) {
+                if (confirm(`Exchange ${quantity} for ${currency.toUpperCase()}?`)) {
                     this.eos.transaction({
                         actions: [{
                             account,
@@ -148,7 +147,7 @@
                         }]
                     })
                         .then(() => {
-                            this.$notice.success(`You <b>${side} ${amount} ${this.pair.base}</b>`)
+                            this.$notice.success(`${quantity} exchanged for ${currency.toUpperCase()}`)
                             this.getBalance()
 
                             this.$bus.$emit('updateChartData')

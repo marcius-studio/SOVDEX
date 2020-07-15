@@ -65,7 +65,6 @@
                 return {
                     miningRate: parseFloat((this.miningRate * this.range).toFixed(4)) || 0,
                     burn: parseFloat(((this.quantity * 0.014) * this.range).toFixed(2)) || 0,
-                    quantity: parseFloat((this.quantity * this.range).toFixed(4)) || 0,
                 }
             },
             miningCost() {
@@ -135,32 +134,42 @@
                     })
             },
             submit() {
-                const quantity = this.$options.filters.eosAmountFormat(this.total.quantity, 'SOV')
+                const quantity = this.$options.filters.eosAmountFormat(this.quantity, 'SOV')
 
-                if (this.miningRate > this.targetMiningRate)
-                    this.eos.transaction({
-                        actions: [{
-                            account: 'sovmintofeos',
-                            name: 'transfer',
-                            authorization: [{
-                                actor: this.scatter.name,
-                                permission: "active"
-                            }],
-                            data: {
-                                "from": this.scatter.name,
-                                "to": 'sovdexrelays',
-                                quantity,
-                                "memo": 'mine SVX'
-                            }
+                const action = {
+                    account: 'sovmintofeos',
+                    name: 'transfer',
+                    authorization: [{
+                        actor: this.scatter.name,
+                        permission: "active"
+                    }],
+                    data: {
+                        "from": this.scatter.name,
+                        "to": 'sovdexrelays',
+                        quantity,
+                        "memo": 'mine SVX'
+                    }
 
-                        }]
-                    }).then(() => {
-                        console.log('[mine] Success')
-                        if (!this.isAuto) this.$notice.success('Mine success')
+                }
 
-                        this.$bus.$emit('tick')
-                    }).catch(error => console.error(error))
-            }
+                let actions = []
+
+                for (var i = 0; i < this.range; i++) {
+                    actions.push(action)
+                }
+
+                console.log(actions, actions.length)
+
+                if (this.miningRate > this.targetMiningRate) {
+                    this.eos.transaction({ actions })
+                        .then(() => {
+                            console.log('[mine] Success')
+                            if (!this.isAuto) this.$notice.success('Mine success')
+
+                            this.$bus.$emit('tick')
+                        }).catch(error => console.error(error))
+                }
+            },
         },
         beforeDestroy() {
             // clear if component destroy

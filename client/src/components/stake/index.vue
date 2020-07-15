@@ -83,7 +83,7 @@
             }
         },
         mounted() {
-           // this.getBalance()
+            // this.getBalance()
             this.polling = setInterval(() => {
                 this.getBalance()
                 this.getFeeDiscount() // from mixin
@@ -91,55 +91,57 @@
         },
         methods: {
             stake() {
-                this.eos.transaction({
-                    actions: [{
-                        account: 'svxmintofeos',
-                        name: 'stake',
-                        authorization: [{
-                            actor: this.scatter.name,
-                            permission: "active"
-                        }],
-                        data: {
-                            "account": this.scatter.name,
-                            "value": this.$options.filters.eosAmountFormat(this.stakeCount)
-                        }
+                if (confirm(`Stake ${this.stakeCount} SVX?`))
+                    this.eos.transaction({
+                        actions: [{
+                            account: 'svxmintofeos',
+                            name: 'stake',
+                            authorization: [{
+                                actor: this.scatter.name,
+                                permission: "active"
+                            }],
+                            data: {
+                                "account": this.scatter.name,
+                                "value": this.$options.filters.eosAmountFormat(this.stakeCount)
+                            }
 
-                    }]
-                })
-                    .then(() => {
-                        this.$notice.success(`Staked ${this.stakeCount} SVX`)
-                        this.getBalance() // reload data
-                        this.clear()
+                        }]
                     })
-                    .catch(error => {
-                        console.error('[stake | stake]', error)
-                        this.$notice.error('Stake error')
-                    })
+                        .then(() => {
+                            this.$notice.success(`Staked ${this.stakeCount} SVX`)
+                            this.getBalance() // reload data
+                            this.clear()
+                        })
+                        .catch(error => {
+                            console.error('[stake | stake]', error)
+                            this.$notice.error('Stake error')
+                        })
             },
             unstake() {
-                this.eos.transaction({
-                    actions: [{
-                        account: 'svxmintofeos',
-                        name: 'unstake',
-                        authorization: [{
-                            actor: this.scatter.name,
-                            permission: "active"
-                        }],
-                        data: {
-                            "account": this.scatter.name,
-                            "value": this.$options.filters.eosAmountFormat(this.unstakeCount)
-                        }
-                    }]
-                })
-                    .then(() => {
-                        this.$notice.success(`Unstaked ${this.unstakeCount} SVX`)
-                        this.getBalance() // reload data
-                        this.clear()
+                if (confirm(`Un-Stake ${this.unstakeCount} SVX?`))
+                    this.eos.transaction({
+                        actions: [{
+                            account: 'svxmintofeos',
+                            name: 'unstake',
+                            authorization: [{
+                                actor: this.scatter.name,
+                                permission: "active"
+                            }],
+                            data: {
+                                "account": this.scatter.name,
+                                "value": this.$options.filters.eosAmountFormat(this.unstakeCount)
+                            }
+                        }]
                     })
-                    .catch(error => {
-                        console.error('[stake | unstake]', error)
-                        this.$notice.error('Unstake error')
-                    })
+                        .then(() => {
+                            this.$notice.success(`Unstaked ${this.unstakeCount} SVX`)
+                            this.getBalance() // reload data
+                            this.clear()
+                        })
+                        .catch(error => {
+                            console.error('[stake | unstake]', error)
+                            this.$notice.error('Unstake error')
+                        })
             },
             getBalance() {
                 this.eos.getTableRows({
