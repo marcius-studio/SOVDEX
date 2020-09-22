@@ -11,13 +11,13 @@ const tick = {
     },
     time: {
         type: Number,
-		required: true,
+        required: true,
     }
 }
 
 const schema = new mongoose.Schema(tick)
 export const tickModel = mongoose.model('ticks', schema)
 
+
 // connect to "production" db from dev mode
-const db = mongoose.connection.useDb('production')
-export const productionTickModel = db.model('ticks', schema)
+export const tickModelProduction = mongoose.connection.useDb('production').model('ticks', tick)

@@ -4,8 +4,7 @@
             <theader />
         </div>
         <div class="content-body">
-            <router-view v-if="$store.getters.isAuth"></router-view>
-            <isConnected v-else />
+            <router-view></router-view>
         </div>
         <div class="content-footer z-index-1" style="box-shadow: 0 0 10px rgba(0,0,0,.1);">
             <bottomNavigation />

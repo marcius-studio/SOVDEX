@@ -1,9 +1,12 @@
 export default {
-    path: '/',
-    redirect: {name: 'stake'},
+	path: '/',
+	redirect: {
+		name: 'market',
+		params: { symbol: 'soveos' }
+	},
 	name: 'home',
 	meta: {
-			name: 'Home',
+		name: 'Home',
 	},
-	component: {template: '<router-view />'}
+	component: { template: '<router-view />' }
 }

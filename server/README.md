@@ -9,12 +9,13 @@ Generates OHLC data from blockchain tick.
 ### Algoritm
 
 1. Сonnect to NoSQL (MongoDB Atlas) database
-2. Save tick every 3 minutes as `{symbol:'soveos', price:0.0004, time:1593880500000}`
-3. Build OHLC candles using minute ticks in [candle.js](src/modules/candles.js)
+2. Save tick every minutes as `{symbol:'soveos', price:0.0004, time:1593880500000}`
+3. Build OHLC candles using minute ticks in [candle.js](src/api/modules/candles.js)
    1. Build sessions `[{ openTime:Timestamp, closeTime:Timestamp}]`
    2. Fill session with range of ticks `[{symbol:String, price:Number, time:Timestamp}, ... ]`
    3. Create candle from range data `{open:Number, high:Number, low:Number, close:Number}` for every session
-4. With long-term accumulation, auto-removes excess data from database every `1h`
+4. Save klines in database for speed up charts
+5. With long-term accumulation, auto-removes excess data from database every `hour`
 
 ## How to use
 
@@ -31,17 +32,14 @@ db: {
 * Request to `http://localhost:3000/?symbol=soveos&interval=15m&limit=100`
 * Response `[{openTime:Timestamp, closeTime:Timestamp, open:Number, high:Number, low:Number, close:Number}, ... ]`
 
-### Update pairs
+### Update markets
 
-List of pairs is formed on the basis of [scheme](src/api/queries.js#L5). 
+List of markets is formed on the basis of [config](src/api/config.js).
 
-* Auto getting array of pairs `Object.keys(schema)` => `['soveos', 'svxeos', ... ]`
-* Value of pair is using for request params
+If need add market, just update config with `<key>:<value>`:
 
-If need add pair, just update schema with same code `key:value`
-
-* `key` it is name of pair
-* `value` params for getting `price` from blockchain
+* `key` => `svxeos` name of market
+* `value` => `{  "code": "sovdexrelays", ... }` params for getting `price` from blockchain
 
 ```js
  svxeos: {
@@ -51,3 +49,24 @@ If need add pair, just update schema with same code `key:value`
         "json": true
 },
 ```
+
+### Config example
+
+```js
+const schema = {
+   svxeos: {
+        "code": "sovdexrelays",
+        "scope": "EOS",
+        "table": "svxpair",
+        "json": true
+   },
+   ...
+}
+
+export const config = {
+    markets: Object.keys(schema), // [ 'soveos', 'svxeos', 'sovusdt', 'eospbtc', 'powpbtc' ]
+    intervals: ['15m', '1h', '4h', '1d']
+}
+```
+
+Single config will automatically keep up-to-date information on the server and client

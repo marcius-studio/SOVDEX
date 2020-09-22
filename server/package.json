@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "nodemon --exec babel-node .",
+    "start:production": "cross-env NODE_ENV=production nodemon --exec babel-node .",
     "build": "cross-env NODE_ENV=production webpack --progress"
   },
   "author": "",
@@ -20,6 +21,7 @@
     "timestring": "6.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.11.5",
     "@babel/core": "7.9.6",
     "@babel/node": "7.8.7",
     "@babel/plugin-transform-runtime": "7.10.0",

@@ -5,7 +5,7 @@ import stream from './stream'
 export default {
     mixins: [stream],
     data: () => ({
-        host: 'https://api.sovdex.io',// process.env.NODE_ENV == 'production' ? 'https://api.sovdex.io' : 'http://localhost:3000',
+        host: process.env.NODE_ENV == 'production' ? 'https://api.sovdex.io' : 'http://localhost:3000',
         data: [],
         isDataLoaded: false,
     }),

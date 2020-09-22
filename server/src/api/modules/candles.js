@@ -1,20 +1,16 @@
 import timestring from 'timestring'
 import moment from 'moment'
 
-import { ticks } from '../api/queries'
-
 export default class Candles {
-    constructor(data) {
-        this.minutes = timestring(data.interval) / 60 // get count of minutes
-        return this.init(data)
+    constructor(params, data) {
+        this.minutes = timestring(params.interval) / 60 // get count of minutes
+        return this.init(params, data)
     }
 
-    async init({ symbol, interval, limit }) {
-
-        const data = await ticks(symbol)
+    init({ interval, limit = 300 }, data) {
         const sessions = this.sessions(interval, limit)
         const candles = this.candles(data, sessions)
-
+        
         return candles || []
     }
 

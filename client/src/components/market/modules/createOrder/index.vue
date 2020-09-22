@@ -1,5 +1,5 @@
 <template>
-    <div class="content-padding width100">
+    <div class="content-padding width100" v-if="$store.getters.isAuth">
         <div class="columns mb05">
             <div class="column col-12 col-sm-6">
                 <div class="form-group form-action mb05">

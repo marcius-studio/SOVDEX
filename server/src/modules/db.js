@@ -17,6 +17,6 @@ const connection = ({ user, password, cluster }) => `${user}:${password}@${clust
 mongoose.connect(`mongodb+srv://${connection({ ...global.config.db })}`, options)
 
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
-mongoose.connection.once('open', () => console.log('\x1b[36m', '🚀 Connected to DataBase'))
+mongoose.connection.once('open', () => console.log('\x1b[36m', 'Connected to DataBase'))
 
 export default mongoose
