@@ -9,6 +9,7 @@ export const saveKlines = ({ symbol, interval, data = [] }) => {
     klinesModel.findOne({ symbol, interval }, (err, res) => {
         if (!res) return new klinesModel({ symbol, interval, data }).save()
         res.data = data
+        res.updated = Date.now()
         return res.save()
     })
 }

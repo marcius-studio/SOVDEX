@@ -6,6 +6,7 @@ import { ticks } from '../ticks/queries'
 
 export default class Klines {
     constructor() {
+        console.log('[klines] building klines..')
         this.init()
     }
 
@@ -23,7 +24,11 @@ export default class Klines {
     }
 
     klines(params, ticks) {
-        const data = new Candles(params, ticks)
-        saveKlines({ ...params, data })
+        this._candles(params, ticks)
+            .then(data => saveKlines({ ...params, data }))
+    }
+
+    _candles(params, data) {
+        return new Promise((resolve, reject) => resolve(new Candles(params, data)))
     }
 }

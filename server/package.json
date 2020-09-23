@@ -6,7 +6,10 @@
   "scripts": {
     "start": "nodemon --exec babel-node .",
     "start:production": "cross-env NODE_ENV=production nodemon --exec babel-node .",
-    "build": "cross-env NODE_ENV=production webpack --progress"
+    "build": "npm run build:api && npm run build:klines",
+    "build:api": "cross-env NODE_ENV=production webpack --progress",
+    "start:klines": "nodemon --exec babel-node klines",
+    "build:klines": "cross-env NODE_ENV=production webpack klines -o dist/klines.js --progress"
   },
   "author": "",
   "license": "ISC",

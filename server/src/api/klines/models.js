@@ -13,6 +13,11 @@ const klines = {
         type: Array,
         required: true,
         default: []
+    },
+    updated: {
+        type: Number,
+        required: true,
+        default: Date.now()
     }
 }
 
