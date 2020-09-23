@@ -17,6 +17,19 @@ Generates OHLC data from blockchain tick.
 4. Save klines in database for speed up charts
 5. With long-term accumulation, auto-removes excess data from database every `hour`
 
+## NPM commands
+
+There two separate modules: `API` (REST endpoints), `KLINES` (klines builder) for speed up charts
+
+```node
+$ npm run start  // run dev API module
+$ npm run start:production // run dev API module in production
+$ npm run build // build API + KLINES
+$ npm run build:api
+$ npm run start:klines // run dev KLINES module
+$ npm run build:klines
+```
+
 ## How to use
 
 Set access to MongoDB Atlas in [config.js](src/config.js).
