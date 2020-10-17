@@ -1,6 +1,6 @@
 lines (68 sloc)  1.8 KB
 <template>
-	<div class="bottom-navigation show-sm" v-if="$store.getters.isAuth">
+	<div class="bottom-navigation show-sm">
 
 		<div class="container grid-xs height100">
 			<div class="unit">

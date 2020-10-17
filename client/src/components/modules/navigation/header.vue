@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="unit-section">
+                <div class="unit-section hide-sm">
                     <router-link v-if="$store.getters.isAuth" v-for="(i,idx) in schema" :to="i.route"
                         :key="idx" class="link link-padding" :class="{'active' : i.route.name == $route.name}">{{i.name}}
                     </router-link>
