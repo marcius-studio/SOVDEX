@@ -1,5 +1,5 @@
 <template>
-    <div class="header flex-centered bg-secondary hide-sm">
+    <div class="header flex-centered bg-secondary">
         <div class="container grid-xl">
             <div class="unit">
                 <div class="unit-section">
